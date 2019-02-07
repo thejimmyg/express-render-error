@@ -2,19 +2,31 @@
 
 Set up an express server with error handlers, signal handlers and common environment variable support.
 
+## Configuration
+
+The components in this pacakge make use of the `app.locals.debug` and `app.locals.option` namespaces.
+
 ## Common Options from Environment Variables
 
 Typical usage:
 
 ```
-const {optionsFromEnv} = require('express-render-error')
-const options = optionsFromEnv()
-app.locals = Object.assign({}, app.locals, options)
+const { prepareErrorHandlers, prepareDebug, prepareOption, optionFromEnv, installSignalHandlers, setupErrorHandlers } = require('express-error-render')
+const debug = require('debug')('express-render-error:server')
+const { prepareMustache, setupMustache, mustacheFromEnv } = require('express-mustache-overlays')
+
+installSignalHandlers()
+
+const app = express()
+prepareDebug(app, debug)
+prepareOption(app, optionFromEnv(app))
+prepareMustache(app, mustacheFromEnv(app))
+prepareErrorHandlers(app)
 ```
 
 This will set `scriptName`, `sharedPublicUrlPath`, `title` (not `defaultTitle`) and `port` on `app.locals`. By default, any render engines registered with Express will use the values in `app.locals` if a the variable can't be found in `res.locals` or in the data passed directory to the `res.render()` all.
 
-Here are the variables that are parsed with 
+Here are the variables that are parsed with
 * `SCRIPT_NAME` - The URL path where the app that uses this is located. Defaults to `''` to mean the root URL of the domain. Accessed as `scriptName` in the return value.
 * `SHARED_PUBLIC_URL_PATH` - the full URL path that a template should use to point to a location that serves static files. The public files will be expected to be served from `${SCRIPT_NAME}/public` by default. Accessed as `sharedPublicUrlPath` in the return value. (This package doesn't handle the actual serving, see express-public-files-overlays for one solution to that.)
 * `DEFAULT_TITLE` - the default title to use for pages. Accessed as `title` in the return value, not `defaultTitle`.
@@ -59,15 +71,8 @@ You can find suitable 404 and 500 views in `bootstrap-flexbox-overlay` which is 
 
 ## Example
 
-There is a small demo (including setting up of a template engine) that you can run with:
+There is a small demo in the `./example` directory.
 
-```
-DEBUG="express-render-error:server" npm start
-```
-
-If you visit http://localhost:8000 you should see the 404 page since there are no handles for that path. If you visit http://localhost:8000/throw an error will be thrown which the error handler will catch, log to the debug logger (make sure `DEBUG` is set correctly to see it) and then display a 500 error page for.
-
-Try setting `DEFAULT_TITLE` to change the title.
 
 ## Dev
 
@@ -77,6 +82,11 @@ npm run fix
 
 
 ## Changelog
+
+### 0.1.1 2019-02-07
+
+* Added `prepareDebug`, `prepareOption`, `prepareErrorHandlers`
+* Refactored example in to the `./example` directory
 
 ### 0.1.0 2019-02-06
 
