@@ -22,7 +22,16 @@ prepareDebug(app, debug)
 prepareOption(app, optionFromEnv(app))
 prepareMustache(app, mustacheFromEnv(app))
 prepareErrorHandlers(app)
+
+// Add route handlers here
+
+// Call setupPublicFiles() here if you are using express-public-files-overlays
+
+// Handle errors afterwards
+setupErrorHandlers(app, { debug })
 ```
+
+**Caution: If you are using express-public-files-overlays make sure that your call to `setupPublic()` comes *before* the call to `setupErrorHandlers()` otherwise your 404 handler will handle static files instead of the static file server.**
 
 This will set `scriptName`, `sharedPublicUrlPath`, `title` (not `defaultTitle`) and `port` on `app.locals`. By default, any render engines registered with Express will use the values in `app.locals` if a the variable can't be found in `res.locals` or in the data passed directory to the `res.render()` all.
 
@@ -83,10 +92,15 @@ npm run fix
 
 ## Changelog
 
+### 0.1.2 2019-02-09
+
+* Improved Docker example
+
 ### 0.1.1 2019-02-07
 
 * Added `prepareDebug`, `prepareOption`, `prepareErrorHandlers`
 * Refactored example in to the `./example` directory
+* Use `top` and `bottom` templates
 
 ### 0.1.0 2019-02-06
 

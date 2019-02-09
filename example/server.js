@@ -26,4 +26,4 @@ app.set('views', app.locals.mustache.dirs)
 app.set('view engine', 'mustache')
 
 // Listen and serve
-app.listen(8000, () => console.log(`Example app listening on port 8000`))
+app.listen(app.locals.option.port, () => console.log(`Example app listening on port ${app.locals.option.port}`))
