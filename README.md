@@ -92,6 +92,10 @@ npm run fix
 
 ## Changelog
 
+### 0.1.3 2019-02-09
+
+* Added titles to the pages
+
 ### 0.1.2 2019-02-09
 
 * Improved Docker example
