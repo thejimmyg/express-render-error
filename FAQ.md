@@ -1,6 +1,6 @@
 # FAQ
 
-## What is the thinking behind the `app.locals` structure these pacakges are using?
+## What is the thinking behind the `app.locals` structure these pacakges are using?
 
 I've found a very useful way to think about building express apps is like this:
 
