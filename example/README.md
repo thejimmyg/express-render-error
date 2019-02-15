@@ -3,18 +3,34 @@
 There is a small demo (including setting up of a template engine) that you can run with:
 
 ```
-DEBUG="express-render-error:server" npm start
+cd ../
+npm install
+cd example
+npm install
+npm start
 ```
 
-If you visit http://localhost:8000 you should see the 404 page since there are no handles for that path. If you visit http://localhost:8000/throw an error will be thrown which the error handler will catch, log to the debug logger (make sure `DEBUG` is set correctly to see it) and then display a 500 error page for.
+If you get a warning about not being able to install a package, remove your `package-lock.json` file and try again.
 
-Try setting `DEFAULT_TITLE` to change the title.
+You can set the port like this (8000 is the default anyway). This sets `app.locals.option.port` internally:
 
-To log everything, use:
+```
+PORT=8000 npm start
+```
+
+To add logging too you can use:
 
 ```
 DEBUG="*" PORT=8000 npm start
 ```
+
+You can choose just a few selected loggers by comma-separating their names like this:
+
+```
+DEBUG="express-render-error,express-render-error:server" PORT=8000 npm start
+```
+
+If you visit http://localhost:8000 you should see the 404 page since there are no handles for that path. If you visit http://localhost:8000/throw an error will be thrown which the error handler will catch, log to the debug logger (make sure `DEBUG` is set correctly to see it) and then display a 500 error page for.
 
 
 ## Dev
@@ -22,6 +38,7 @@ DEBUG="*" PORT=8000 npm start
 ```
 npm run fix
 ```
+
 
 ## Docker
 

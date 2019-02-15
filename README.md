@@ -2,6 +2,9 @@
 
 Set up an express server with error handlers, signal handlers and common environment variable support.
 
+**To understand how this fits into the bigger picture of structuring Express apps in this style, please read the [FAQ](https://github.com/thejimmyg/express-render-error/blob/master/FAQ.md) first.**
+
+
 ## Configuration
 
 The components in this pacakge make use of the `app.locals.debug` and `app.locals.option` namespaces.
@@ -36,7 +39,7 @@ setupErrorHandlers(app, { debug })
 This will set `scriptName`, `sharedPublicUrlPath`, `title` (not `defaultTitle`) and `port` on `app.locals`. By default, any render engines registered with Express will use the values in `app.locals` if a the variable can't be found in `res.locals` or in the data passed directory to the `res.render()` all.
 
 Here are the variables that are parsed with
-* `SCRIPT_NAME` - The URL path where the app that uses this is located. Defaults to `''` to mean the root URL of the domain. Accessed as `scriptName` in the return value.
+* `SCRIPT_NAME` - The URL path component where the app that uses this is located. Defaults to `''` to mean the root URL of the functionality being mounted. Accessed as `scriptName` in the return value. For example sign in functionality might be mounted with a script name of `/user`. Should not end in a `/`
 * `SHARED_PUBLIC_URL_PATH` - the full URL path that a template should use to point to a location that serves static files. The public files will be expected to be served from `${SCRIPT_NAME}/public` by default. Accessed as `sharedPublicUrlPath` in the return value. (This package doesn't handle the actual serving, see express-public-files-overlays for one solution to that.)
 * `DEFAULT_TITLE` - the default title to use for pages. Accessed as `title` in the return value, not `defaultTitle`.
 * `PORT` - Defaults to 80, but set it to something like 8000 if you want to run without needing `sudo`. Accessed as `port` in the return value.
@@ -91,6 +94,11 @@ npm run fix
 
 
 ## Changelog
+
+### 0.1.4 2019-02-15
+
+* Added `FAQ.md`
+* Removed unnecessary extra licensing
 
 ### 0.1.3 2019-02-09
 
