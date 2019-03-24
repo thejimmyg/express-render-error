@@ -14,7 +14,7 @@ The components in this pacakge make use of the `app.locals.debug` and `app.local
 Typical usage:
 
 ```
-const { prepareErrorHandlers, prepareDebug, prepareOption, optionFromEnv, installSignalHandlers, setupErrorHandlers } = require('express-error-render')
+const { prepareErrorHandlers, prepareDebug, prepareOption, optionFromEnv, installSignalHandlers, setupErrorHandlers } = require('express-render-error')
 const debug = require('debug')('express-render-error:server')
 const { prepareMustache, setupMustache, mustacheFromEnv } = require('express-mustache-overlays')
 
@@ -32,6 +32,15 @@ prepareErrorHandlers(app)
 
 // Handle errors afterwards
 setupErrorHandlers(app, { debug })
+
+// Set up the mustache engine that the error handlers will use for rendering
+const mustacheEngine = setupMustache(app)
+app.engine('mustache', mustacheEngine)
+app.set('views', app.locals.mustache.dirs)
+app.set('view engine', 'mustache')
+
+// Listen and serve
+app.listen(app.locals.option.port, () => console.log(`Example app listening on port ${app.locals.option.port}`))
 ```
 
 **Caution: If you are using express-public-files-overlays make sure that your call to `setupPublic()` comes *before* the call to `setupErrorHandlers()` otherwise your 404 handler will handle static files instead of the static file server.**
